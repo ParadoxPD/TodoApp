@@ -2,6 +2,7 @@
 
 Backend/venv/
 Backend/.vscode/
+Backend/config.py
 Backend/resources/__pycache__
 **/__pycache__
 
