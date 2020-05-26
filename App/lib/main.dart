@@ -1,6 +1,8 @@
 import 'package:App/UI/Intray/intray_page.dart';
+import 'package:App/UI/Login/loginscreen.dart';
 import 'package:flutter/material.dart';
 import 'models/global.dart';
+// import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,11 +10,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: FutureBuilder(
+        future: ,
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            return Text('Press button to start');
+            case ConnectionState.active:
+            case ConnectionState.waiting:
+            return Text('Awaiting result....');
+            case ConnectionState.done:
+            if(snapshot.hasError) return Text('Error : ${snapshot.error}');
+            return Text('Result : ${snapshot.data}');
+         }
+         return null;
+        },
+      ),
     );
   }
 }

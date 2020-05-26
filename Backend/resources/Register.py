@@ -1,3 +1,4 @@
+import string
 import random
 from flask import request
 import json
@@ -33,11 +34,17 @@ class Register(Resource):
         if user:
             return {'message': 'username not available'}, 400
 
-        user = User(id=json_data['id'], api_key=json_data['api_key'], username=json_data['username'], password=json_data['password'],
+        api_key = self.generate_key()
+        while User.query.filter_by(api_key=api_key).first() != None:
+            api_key = self.generate_key()
+        user = User(api_key=api_key, username=json_data['username'], password=json_data['password'],
                     first_name=json_data['firstname'], last_name=json_data['lastname'], email=json_data['email'],)
 
         db.session.add(user)
         db.session.commit()
 
         # print(json_data)
-        return {'message': f'registering username'}
+        return {'data': user.serialize(), 'status': 'success'}
+
+    def generate_key(self):
+        return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(50))

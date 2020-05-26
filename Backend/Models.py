@@ -11,7 +11,7 @@ db = SQLAlchemy()
 class User(db.Model):
     __tablename__ = 'users'
     # __table_args__ = tuple(db.UniqueConstraint('id', 'username', name='my_2uniq'))
-    id = db.Column(db.Integer, primary_key=True)
+    # id = db.Column(db.Integer, primary_key=True)
     api_key = db.Column(db.String(), primary_key=True)
     username = db.Column(db.String(), primary_key=True, unique=True)
     first_name = db.Column(db.String())
@@ -19,10 +19,10 @@ class User(db.Model):
     password = db.Column(db.String())
     email = db.Column(db.String())
 
-    def __init__(self, id, api_key, username, first_name, last_name, password, email):
+    def __init__(self, api_key, username, first_name, last_name, password, email):
         # db.drop_all()
         # db.create_all()
-        self.id = id
+        # self.id = id
         self.api_key = api_key
         self.username = username
         self.first_name = first_name
@@ -35,7 +35,7 @@ class User(db.Model):
 
     def serialize(self):
         return {
-            'id': self.id,
+            # 'id': self.id,
             'api_key': self.api_key,
             'username': self.username,
             'first_name': self.first_name,
@@ -46,7 +46,7 @@ class User(db.Model):
 
 
 class UserSchema(ma.Schema):
-    id = fields.String()
+    # id = fields.String()
     api_key = fields.String()
     username = fields.String(required=True, validate=validate.Length(1))
     firstname = fields.String(required=True, validate=validate.Length(1))
